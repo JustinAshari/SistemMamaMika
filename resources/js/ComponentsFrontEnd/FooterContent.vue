@@ -6,7 +6,7 @@
         <div class="text-center max-w-xs">
           <h4 class="font-bold text-lg mb-2">Hubungi Kami</h4>
           <p class="font-bold text-[#555555]">Telp: +62802982878</p>
-          <p class="font-bold text-[#555555]">Whatsapp: +6256898765876</p>
+          <p class="font-bold text-[#555555]">Whatsapp: +62856898765876</p>
           <p class="font-bold text-[#555555]">Senin-Minggu</p>
           <p class="font-bold text-[#555555] mt-2">
             Bakalan rt 04 rw 03, <br />

@@ -18,37 +18,38 @@ class OrderController extends Controller
     }
 
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'nama_pembeli' => 'required|string|max:255',
-        'alamat' => 'required|string|max:255',
-        'product_id' => 'required|exists:products,id',
-        'jumlah' => 'required|integer|min:1',
-        'payment' => 'required|in:COD,QRIS',
-    ]);
-
-    $product = Product::findOrFail($validated['product_id']);
-    $total = $product->harga * $validated['jumlah'];
-
-    try {
-        Order::create([
-            'nama_pembeli' => $validated['nama_pembeli'],
-            'product_id' => $validated['product_id'],
-            'alamat' => $validated['alamat'],
-            'jumlah' => $validated['jumlah'],
-            'total' => $total,
-            'payment' => $validated['payment'],
-            'status' => 'pending',  // Nilai default untuk status
+    {
+        $validated = $request->validate([
+            'nama_pembeli' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'product_id' => 'required|exists:products,id',
+            'jumlah' => 'required|integer|min:1',
+            'payment' => 'required|in:COD,QRIS',
         ]);
 
-        return redirect()->route('/')
-            ->with('success', 'Pesanan Anda berhasil dikirim!');
-    } catch (\Exception $e) {
-        return redirect()->back()
-            ->withErrors(['error' => 'Terjadi kesalahan saat memproses pesanan.'])
-            ->withInput();
+        $product = Product::findOrFail($validated['product_id']);
+        $total = $product->harga * $validated['jumlah'];
+
+        try {
+            Order::create([
+                'nama_pembeli' => $validated['nama_pembeli'],
+                'product_id' => $validated['product_id'],
+                'alamat' => $validated['alamat'],
+                'jumlah' => $validated['jumlah'],
+                'total' => $total,
+                'payment' => $validated['payment'],
+                'status' => 'pending',
+            ]);
+
+            // Kirim respons sukses tanpa URL
+            return redirect()->back()->with(['success' => 'Pesanan berhasil ditambahkan']);
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat memproses pesanan.']);
+        }
     }
-}
+
+
+
 
 
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdminController;
 use App\Models\Product;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -19,13 +20,17 @@ Route::get('/', function () {
     return Inertia::render('HomeView');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/home', function () {
     return Inertia::render('HomeView');
 })->name('home');
+
+Route::get('/login', function () {
+    return Inertia::location(route('filament.admin.pages.dashboard'));
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/about', function () {
     return Inertia::render('AboutView');    

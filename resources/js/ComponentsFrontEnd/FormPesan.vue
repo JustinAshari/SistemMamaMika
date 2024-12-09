@@ -158,19 +158,57 @@ const formattedTotal = computed(() => {
   }).format(total);
 });
 
+// const submitOrder = () => {
+//   form.post(route('order.store'), {
+//     forceFormData: true,
+//     onSuccess: () => {
+//       form.reset();  // Reset form setelah berhasil
+//       // Anda bisa menambahkan pengalihan jika perlu
+//       // window.location.href = "/order";  // Contoh jika ingin mengarahkan pengguna ke halaman lain
+//     },
+//     onError: (errors) => {
+//       console.log(errors);  // Untuk debugging error yang terjadi
+//     },
+//     preserveScroll: true
+//   });
 const submitOrder = () => {
+  // Ambil detail produk
+  const selectedProductDetails = selectedProduct.value;
+
+  // Buat pesan untuk WhatsApp
+  const message = `
+    Halo, saya ingin memesan:
+    Nama Pembeli: ${form.nama_pembeli}
+    Produk: ${selectedProductDetails.nama_barang}
+    Jumlah: ${form.jumlah}
+    Total: ${formattedTotal.value}
+    Alamat: ${form.alamat}
+    Pembayaran: ${form.payment}
+
+    Terima kasih.
+  `.trim();
+
+  // URL WhatsApp
+  const whatsappUrl = `https://wa.me/6285781849886?text=${encodeURIComponent(message)}`;
+
+  // Kirim form ke server
   form.post(route('order.store'), {
     forceFormData: true,
     onSuccess: () => {
-      form.reset();  // Reset form setelah berhasil
-      // Anda bisa menambahkan pengalihan jika perlu
-      // window.location.href = "/order";  // Contoh jika ingin mengarahkan pengguna ke halaman lain
+      // Reset form setelah berhasil
+      form.reset();
+
+      // Arahkan ke WhatsApp
+      window.location.href = whatsappUrl;
     },
     onError: (errors) => {
-      console.log(errors);  // Untuk debugging error yang terjadi
+      console.error(errors); // Debugging error
     },
-    preserveScroll: true
+    preserveScroll: true,
   });
 };
+
+
+
 
 </script>
